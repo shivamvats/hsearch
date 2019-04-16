@@ -12,3 +12,7 @@ Coding Standards
 * Getter and Setters
     - set*() defines setters.
     - there are no setter methods. Directly access the member variables.
+    
+* Variable naming policy:
+    - all variables are in lower case, words separated by underscore.
+    - pointers begin with an underscore.
