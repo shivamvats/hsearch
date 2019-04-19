@@ -13,7 +13,7 @@ namespace hsearch {
 
         Node Succs( const Node a, const Actions actions ) override;
         float EdgeCost( const Node a, const Node b ) override;
-    };
+    };
 } //namespace hsearch
 
 #endif

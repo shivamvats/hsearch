@@ -1,9 +1,10 @@
 #include "lattice.h"
 
-Lattice::Lattice() {
+namespace hsearch {
+    Lattice::Lattice( ) {
+    }
 
-}
-
-bool Lattice::setActions( const Actions actions ){
-    m_actions = actions;
-}
+    bool Lattice::setActions( const Actions actions ){
+        m_actions = actions;
+    }
+} //namespace hsearch

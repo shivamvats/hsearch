@@ -11,7 +11,8 @@ namespace hsearch {
         public:
         Planner();
 
-        virtual bool plan( float allocated_time_sec, std::vector<Node> &path );
+        virtual bool plan( float allocated_time_sec, std::vector<Node>
+&path );
     };
 }
 
