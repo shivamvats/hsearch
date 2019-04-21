@@ -2,6 +2,7 @@
 #define LATTICE_H
 
 #include "directed_acyclic_graph.h"
+#include "space/action_space.h"
 #include "types.h"
 
 namespace hsearch {
@@ -15,13 +16,11 @@ namespace hsearch {
         public:
         Lattice();
 
-        virtual Nodes Succs( const Node, const Actions ) = 0;
-        virtual float EdgeCost( const Node, const Node ) = 0;
-
-        bool setActions( const Actions );
-
-        Actions m_actions;
+        virtual Nodes Succs( const Node );
+        //virtual double EdgeCost( const Node, const Node);
     };
+
+    using LatticePtr = std::shared_ptr<Lattice>;
 } //namespace hsearch
 
 #endif

@@ -7,6 +7,7 @@
 namespace hsearch {
     class DirectedAcyclicGraph {
         public:
+        DirectedAcyclicGraph();
         DirectedAcyclicGraph( double );
         virtual Nodes Succs( Node );
         virtual double EdgeCost( Node, Node );

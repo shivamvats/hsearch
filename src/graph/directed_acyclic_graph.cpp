@@ -1,6 +1,9 @@
-#include "directed_acyclic_graph.h"
+#include "graph/directed_acyclic_graph.h"
 
 namespace hsearch {
+    DirectedAcyclicGraph::DirectedAcyclicGraph(){
+    }
+
     DirectedAcyclicGraph::DirectedAcyclicGraph( double edge_cost_ ){
         m_edge_cost = edge_cost_;
     }

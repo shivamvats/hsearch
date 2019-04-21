@@ -1,6 +1,6 @@
 #include "manip_lattice.h"
 
-ManipLattice::ManipLattice(  ) {
+ManipLattice::ManipLattice(){
 
 }
 
