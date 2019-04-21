@@ -16,3 +16,15 @@ Coding Standards
 * Variable naming policy:
     - all variables are in lower case, words separated by underscore.
     - pointers begin with an underscore.
+
+Design
+======
+
+* No explicit Graph/Lattice class is required.
+    We represent our lattice in a functional form (via Succs function).
+    This removes the necessity to store the lattice as the relevant information
+    is stored in the planner.
+    
+    Hence, we only have PlanningSpace classes that take in the state information
+    (in whatever form, eg: RobotState) and apply actions from an ActionSpace object 
+    that knows how to act on states of that type.
