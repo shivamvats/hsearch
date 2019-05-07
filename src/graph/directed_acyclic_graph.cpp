@@ -1,4 +1,4 @@
-#include "graph/directed_acyclic_graph.h"
+#include "hsearch/graph/directed_acyclic_graph.h"
 
 namespace hsearch {
     DirectedAcyclicGraph::DirectedAcyclicGraph(){

@@ -1,4 +1,4 @@
-#include "graph/lattice.h"
+#include "hsearch/graph/lattice.h"
 
 namespace hsearch {
     Lattice::Lattice(){

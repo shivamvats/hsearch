@@ -1,4 +1,4 @@
-#include "space/action_space.h"
+#include "hsearch/space/action_space.h"
 
 namespace hsearch {
     ActionSpace::ActionSpace( size_t dim_ ){

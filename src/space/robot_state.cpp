@@ -1,6 +1,6 @@
 #include <assert.h>
-#include "types.h"
-#include "space/robot_state.h"
+#include "hsearch/types.h"
+#include "hsearch/space/robot_state.h"
 
 namespace hsearch {
     RobotState::RobotState( std::vector<double> data_ ){

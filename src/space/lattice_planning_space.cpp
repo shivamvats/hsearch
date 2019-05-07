@@ -1,4 +1,4 @@
-#include "space/lattice_planning_space.h"
+#include "hsearch/space/lattice_planning_space.h"
 
 namespace hsearch {
     LatticePlanningSpace::LatticePlanningSpace(

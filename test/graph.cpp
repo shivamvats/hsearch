@@ -1,8 +1,8 @@
 #include <iostream>
-#include "graph/directed_acyclic_graph.h"
-#include "graph/lattice.h"
-#include "space/action_space.h"
-#include "space/lattice_planning_space.h"
+#include "hsearch/graph/directed_acyclic_graph.h"
+#include "hsearch/graph/lattice.h"
+#include "hsearch/space/action_space.h"
+#include "hsearch/space/lattice_planning_space.h"
 
 using namespace std;
 
