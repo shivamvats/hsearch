@@ -8,6 +8,7 @@ using namespace std;
 
 void testDirectedAcyclicGraph(){
     cout<<"Testing DirectedAcyclicGraph\n";
+    cout<<"============================\n";
     hsearch::DirectedAcyclicGraph graph( 1 );
     graph.insertEdge( 1, 2 );
     graph.insertEdge( 2, 3 );
@@ -20,11 +21,12 @@ void testDirectedAcyclicGraph(){
     for( auto el: succs ){
         cout<<el<<"\t";
     }
-    cout<<"\n";
+    cout<<"\n\n";
 }
 
 void testLattice(){
     cout<<"Testing LatticePlanningSpace\n";
+    cout<<"============================\n";
     auto lattice_ptr = make_shared<hsearch::Lattice>();
     hsearch::ActionSpacePtr action_space_ptr = make_shared<hsearch::ActionSpace>( 3 );
     hsearch::Action action1{ 1, 1, 1 };
@@ -41,7 +43,7 @@ void testLattice(){
     cout<<"Succs: \n";
     for( auto a : succs )
         a.print();
-
+    cout<<"\n\n";
 }
 
 int main(){
