@@ -2,7 +2,6 @@
 #define LATTICE_PLANNING_SPACE_H
 
 #include <hsearch/graph/lattice.h>
-#include <hsearch/space/robot_state.h>
 #include <hsearch/space/action_space.h>
 #include <hsearch/types.h>
 
@@ -22,7 +21,7 @@ namespace hsearch {
         bool isGoal( const RobotState& ) const;
         size_t dim() const;
 
-        NodeId robotStateToNodeId( const RobotState& ) const;
+        //NodeId robotStateToNodeId( const RobotState& ) const;
 
         const ActionSpacePtr m_action_space_ptr;
         RobotState m_start;

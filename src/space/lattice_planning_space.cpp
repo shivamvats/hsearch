@@ -1,4 +1,4 @@
-#include <cmath.h>
+#include <cmath>
 
 #include "hsearch/space/lattice_planning_space.h"
 
@@ -9,17 +9,14 @@ namespace hsearch {
             RobotState start_ ) :
         // collision_checker,
         m_action_space_ptr( action_space_ptr_ ),
-        m_start( start_ ){
-            Lattice temp;
-            m_lattice = temp;
-    }
+        m_start( start_ ){ }
 
-    RobotStates LatticePlanningSpace::Succs( const RobotState s_ ) const {
+    RobotStates LatticePlanningSpace::Succs( const RobotState& s_ ) const {
         RobotStates succs = m_action_space_ptr->applyActions( s_ );
         return succs;
     }
 
-    bool LatticePlanningSpace::setStart( const RobotState state_ ){
+    bool LatticePlanningSpace::setStart( const RobotState& state_ ){
         //if( isValid( start_ ) ){
         //    m_start = start_;
         //    return true;
@@ -53,7 +50,9 @@ namespace hsearch {
         return m_action_space_ptr->dim();
     }
 
-    NodeId LatticePlanningSpace::robotStateToNodeId( RobotState& robot_state_ ){
+    //NodeId LatticePlanningSpace::robotStateToNodeId( RobotState& robot_state_ ){
 
-    }
+    //}
 }
+
+

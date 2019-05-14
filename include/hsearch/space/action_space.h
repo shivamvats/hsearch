@@ -1,8 +1,7 @@
 #ifndef ACTION_SPACE_H
 #define ACTION_SPACE_H
 
-#include "robot_state.h"
-#include "hsearch/types.h"
+#include <hsearch/types.h>
 
 namespace hsearch {
     /**

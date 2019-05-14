@@ -16,6 +16,12 @@ namespace hsearch {
     using NodeId = int;
     using NodeIds = std::vector<NodeId>;
 
+    using RobotState = std::vector<double>;
+    using RobotStates = std::vector<RobotState>;
+
+    using RobotCoord = std::vector<int>;
+    using RobotCoords = std::vector<RobotCoord>;
+
     using Edge = std::pair<Node, Node>;
     using Edges = std::vector<Edge>;
 
@@ -26,6 +32,22 @@ namespace hsearch {
     using OccupancyGridPtr = std::shared_ptr<smpl::OccupancyGrid>;
 
     //using CollisionCheckerPtr = std::unique_ptr<smpl::CollisionChecker>;
+
+    inline RobotState addRobotStates( RobotState& a_, RobotState& b_ ){
+        assert( a_.size() == b_.size() );
+
+        RobotState sum;
+        for( size_t i=0; i<a_.size(); i++)
+            sum.push_back( a_[i] + b_[i] );
+        return sum;
+    }
+
+    template <typename T>
+    inline void printVector( std::vector<T>& state_ ){
+        for( size_t i=0; i<state_.size(); i++ )
+            std::cout<<i<<"  ";
+        std::cout<<"\n";
+    }
 
 } //namespace hsearch
 

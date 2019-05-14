@@ -14,9 +14,6 @@ namespace hsearch {
         assert( s_.size() == m_dim );
 
         RobotStates succs;
-        //for ( auto a : m_actions ){
-        //    succs.push_back( s_.add( a ) );
-        //}
         for( int i=0; i<m_actions.size(); i++ )
             succs.push_back( applyAction( s_, i ) );
         return succs;
@@ -26,7 +23,7 @@ namespace hsearch {
         assert( s_.size() == m_dim );
         assert( i < m_actions.size() );
 
-        return RobotState( s_.add( m_actions[i] ) );
+        return addRobotStates( s_, m_actions[i] );
     }
 
     size_t ActionSpace::dim() const {
