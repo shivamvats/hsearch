@@ -5,6 +5,7 @@
 #include <hsearch/graph/lattice.h>
 #include <hsearch/space/action_space.h>
 #include <hsearch/space/lattice_planning_space.h>
+#include <hsearch/search/dijkstra.h>
 
 using namespace std;
 using namespace hsearch;
@@ -59,6 +60,10 @@ void testLattice(){
     for( auto a : succs )
         printVector( a );
     cout<<"\n\n";
+
+    Dijkstra planner( lattice_planning_space_ptr );
+    auto out = planner.isGoal( 0 );
+    cout<<out<<"\n";
 }
 
 int main(){

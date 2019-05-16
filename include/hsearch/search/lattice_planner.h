@@ -11,9 +11,9 @@ namespace hsearch {
     class LatticePlanner {
         public:
         LatticePlanner( LatticePlanningSpacePtr& );
-        bool setStart( NodeId );
-        virtual bool isGoal ( NodeId ) = 0;
-        virtual bool plan( double allocated_time_sec_, NodeIds& path_ ) = 0;
+        bool setStart( NodeId& );
+        virtual bool isGoal ( const NodeId& ) const = 0;
+        virtual bool plan( const double allocated_time_sec_, NodeIds& path_ ) = 0;
 
         LatticePlanningSpacePtr m_pspace_ptr;
         NodeId m_start;
