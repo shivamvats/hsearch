@@ -2,6 +2,7 @@
 #define LATTICE_PLANNER_H
 
 #include <hsearch/space/lattice_planning_space.h>
+#include <hsearch/types.h>
 
 namespace hsearch {
     /**

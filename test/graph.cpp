@@ -51,8 +51,9 @@ void testLattice(){
     hsearch::RobotState start( std::vector<double>{ 0, 0, 0 } );
     cout<<"Start: \n";
     printVector( start );
+    double res = 0.05;
     auto lattice_planning_space_ptr = make_shared<hsearch::LatticePlanningSpace>(
-            grid, action_space_ptr, start );
+            grid, action_space_ptr, start, res );
     auto succs = lattice_planning_space_ptr->Succs( start );
     cout<<"Succs: \n";
     for( auto a : succs )

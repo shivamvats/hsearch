@@ -8,9 +8,9 @@ namespace hsearch {
         public:
         Dijkstra( LatticePlanningSpacePtr& );
 
-        virtual bool isGoal( NodeId );
-        vritual bool plan( double, NodeIds& );
+        virtual bool isGoal( const NodeId& ) const;
+        virtual bool plan( double, NodeIds& );
     };
 }
 
-#endif /* ifndef DIJKSTRA_H
+#endif
