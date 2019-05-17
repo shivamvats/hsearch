@@ -19,24 +19,28 @@ namespace hsearch {
             //    Suspended = (1 << 1),
             //};
 
-            int state_id;
+            int node_id;
             int g;     // cost-to-come
-            int h;     // estimated cost-to-go
-            int f;     // (g + eps * h) at time of insertion into OPEN
+            //int h;     // estimated cost-to-go
+            //int f;     // (g + eps * h) at time of insertion into OPEN
             //int level;
-            //short call_number;
+            short call_number;
             //std::uint8_t flags;
         };
 
         struct SearchStateCompare {
             bool operator()(const SearchState& s1, const SearchState& s2) const {
-                return s1.f < s2.f;
+                return s1.g < s2.g;
             }
         };
+        using SearchStatePtr = std::shared_ptr<SearchState>;
+
+        SearchStatePtr getSearchStatePtr( const NodeId& );
 
         using OpenList = smpl::intrusive_heap<SearchState, SearchStateCompare>;
 
         OpenList m_open;
+        std::unordered_map<NodeId, SearchStatePtr> m_node_id_to_search_state;
 
     };
 }
