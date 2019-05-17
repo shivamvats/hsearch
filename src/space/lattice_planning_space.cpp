@@ -1,5 +1,6 @@
 #include <cmath>
 #include <stdexcept>
+#include <algorithm>
 
 #include "hsearch/space/lattice_planning_space.h"
 
@@ -15,8 +16,19 @@ namespace hsearch {
         m_start( start_ ),
         m_res( res_ ){}
 
-    RobotStates LatticePlanningSpace::Succs( const RobotState& s_ ) const {
+    RobotStates LatticePlanningSpace::Succs( const RobotState& s_ ) {
         RobotStates succs = m_action_space_ptr->applyActions( s_ );
+        return succs;
+    }
+
+    NodeIds LatticePlanningSpace::Succs( const NodeId& node_id_ ){
+        RobotState robot_state = nodeIdToRobotState( node_id_ );
+        auto robot_succs = Succs( robot_state );
+        std::vector<NodeId> succs;
+        succs.resize( robot_succs.size() );
+        std::transform( robot_succs.begin(), robot_succs.end(), succs.begin(), [this]( RobotState s ){
+                return robotStateToNodeId( s );
+                } );
         return succs;
     }
 

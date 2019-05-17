@@ -23,7 +23,8 @@ namespace hsearch {
                 ActionSpacePtr&,
                 RobotState,
                 double );
-        virtual RobotStates Succs( const RobotState& ) const;
+        virtual RobotStates Succs( const RobotState& );
+        virtual NodeIds Succs( const NodeId& );
         //virtual RobotStates Succs( const RobotState, std::vector<bool> )
         bool setStart( const RobotState& );
         bool setGoal( const RobotState& );

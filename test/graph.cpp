@@ -13,7 +13,7 @@ using namespace hsearch;
 void testDirectedAcyclicGraph(){
     cout<<"Testing DirectedAcyclicGraph\n";
     cout<<"============================\n";
-    hsearch::DirectedAcyclicGraph graph( 1 );
+    DirectedAcyclicGraph graph( 1 );
     graph.insertEdge( 1, 2 );
     graph.insertEdge( 2, 3 );
     graph.insertEdge( 1, 3 );
@@ -40,30 +40,40 @@ OccupancyGrid createOccupancyGrid(){
 void testLattice(){
     cout<<"Testing LatticePlanningSpace\n";
     cout<<"============================\n";
-    auto lattice_ptr = make_shared<hsearch::Lattice>();
+    auto lattice_ptr = make_shared<Lattice>();
 
     auto grid = std::make_shared<OccupancyGrid>( createOccupancyGrid() );
-    hsearch::ActionSpacePtr action_space_ptr = make_shared<hsearch::ActionSpace>( 3 );
-    hsearch::Action action1{ 1, 1, 1 };
-    hsearch::Action action2{ 2, 2, 2 };
+    ActionSpacePtr action_space_ptr = make_shared<ActionSpace>( 3 );
+    Action action1{ 1, 1, 1 };
+    Action action2{ 2, 2, 2 };
     action_space_ptr->addAction( action1 );
     action_space_ptr->addAction( action2 );
 
-    hsearch::RobotState start( std::vector<double>{ 0, 0, 0 } );
+    RobotState start( std::vector<double>{ 0, 0, 0 } );
     cout<<"Start: \n";
     printVector( start );
     double res = 0.05;
-    auto lattice_planning_space_ptr = make_shared<hsearch::LatticePlanningSpace>(
+    auto pspace_ptr = make_shared<LatticePlanningSpace>(
             grid, action_space_ptr, start, res );
-    auto succs = lattice_planning_space_ptr->Succs( start );
+    RobotState goal = {5, 5,5};
+    pspace_ptr->setGoal( goal );
+    pspace_ptr->setGoalThresh( 0.1 );
+
+    auto succs = pspace_ptr->Succs( start );
     cout<<"Succs: \n";
     for( auto a : succs )
         printVector( a );
     cout<<"\n\n";
 
-    Dijkstra planner( lattice_planning_space_ptr );
+    Dijkstra planner( pspace_ptr );
     auto out = planner.isGoal( 0 );
     cout<<out<<"\n";
+
+    cout<<"Testing Dijkstra Planner\n";
+    cout<<"==========================\n";
+    NodeIds soltn;
+    planner.plan( 5, soltn );
+
 }
 
 int main(){

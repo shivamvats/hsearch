@@ -1,6 +1,7 @@
 #ifndef DIJKSTRA_H
 #define DIJKSTRA_H
 
+#include <unordered_set>
 #include <smpl/heap/intrusive_heap.h>
 #include "lattice_planner.h"
 
@@ -8,6 +9,7 @@ namespace hsearch {
     class Dijkstra : public LatticePlanner {
         public:
         Dijkstra( LatticePlanningSpacePtr& );
+        ~Dijkstra();
 
         virtual bool isGoal( const NodeId& ) const override;
         virtual bool plan( const double, NodeIds& ) override;
@@ -33,14 +35,17 @@ namespace hsearch {
                 return s1.g < s2.g;
             }
         };
-        using SearchStatePtr = std::shared_ptr<SearchState>;
+        using SearchStatePtr = SearchState*;
 
         SearchStatePtr getSearchStatePtr( const NodeId& );
 
         using OpenList = smpl::intrusive_heap<SearchState, SearchStateCompare>;
 
         OpenList m_open;
+        std::unordered_set<NodeId> m_closed;
         std::unordered_map<NodeId, SearchStatePtr> m_node_id_to_search_state;
+
+        NodeId m_start_node_id;
 
     };
 }
