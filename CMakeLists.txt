@@ -25,5 +25,8 @@ target_link_libraries( hsearch
     ${Eigen3_LIBRARIES}
     ${smpl_LIBRARIES})
 
-add_executable(test test/graph.cpp)
-target_link_libraries(test hsearch )
+add_executable(test_graph test/graph.cpp)
+target_link_libraries(test_graph hsearch )
+
+add_executable( test_dijkstra test/dijkstra.cpp )
+target_link_libraries( test_dijkstra hsearch )
