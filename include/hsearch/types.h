@@ -45,7 +45,7 @@ namespace hsearch {
     template <typename T>
     inline void printVector( std::vector<T>& state_ ){
         for( size_t i=0; i<state_.size(); i++ )
-            std::cout<<i<<"  ";
+            std::cout<<state_[i]<<"  ";
         std::cout<<"\n";
     }
 

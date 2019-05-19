@@ -1,6 +1,8 @@
 #include <chrono>
 #include <hsearch/search/dijkstra.h>
 
+bool DEBUG = 0;
+
 namespace hsearch {
     Dijkstra::Dijkstra( LatticePlanningSpacePtr& pspace_ptr_  ) : LatticePlanner( pspace_ptr_ ){
         m_start_node_id = m_pspace_ptr->robotStateToNodeId( m_pspace_ptr->m_start );
@@ -34,18 +36,26 @@ namespace hsearch {
                     ( curr_time - start_time ).count() > allocated_time_sec_ )
                 return 1;
 
-            std::cout<<"Size of OPEN: "<<m_open.size()<<"\n";
             curr_state_ptr = m_open.min();
             m_open.pop();
-
             if( m_closed.count( curr_state_ptr->node_id  ) )
                 continue;
             m_closed.insert( curr_state_ptr->node_id );
 
             NodeIds succs = m_pspace_ptr->Succs( curr_state_ptr->node_id );
+
+            if( ::DEBUG ){
+                std::cout<<"Current state: "<<curr_state_ptr->g<<"\n";
+                std::cout<<"Open: "<<m_open.size()<<"\n";
+                std::cout<<"Succs: "<<succs.size()<<"\n";
+            }
             for( NodeId& succ: succs ){
                 auto search_state_ptr = getSearchStatePtr( succ );
                 int new_g = curr_state_ptr->g + 1;
+                if( ::DEBUG ){
+                    std::cout<<"Old g: "<<search_state_ptr->g<<"\n";
+                    std::cout<<"New g: "<<new_g<<"\n";
+                }
                 if( new_g < search_state_ptr->g ){
                     search_state_ptr->g = new_g;
                     search_state_ptr->bp = curr_state_ptr;
@@ -62,6 +72,7 @@ namespace hsearch {
         m_node_id_to_search_state[ node_id_ ]->bp = nullptr;
         m_node_id_to_search_state[ node_id_ ]->call_number = 0;
         m_node_id_to_search_state[ node_id_ ]->node_id = node_id_;
+        m_node_id_to_search_state[ node_id_ ]->g = INT_MAX;
     }
 
     return m_node_id_to_search_state[ node_id_ ];
