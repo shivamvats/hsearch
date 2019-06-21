@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <array>
 #include <utility>
 #include <memory>
 
@@ -30,6 +31,8 @@ namespace hsearch {
 
     using OccupancyGrid = smpl::OccupancyGrid;
     using OccupancyGridPtr = std::shared_ptr<smpl::OccupancyGrid>;
+
+    using Color = std::array<int, 3>;
 
     //using CollisionCheckerPtr = std::unique_ptr<smpl::CollisionChecker>;
 
