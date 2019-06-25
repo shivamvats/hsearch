@@ -21,8 +21,7 @@ namespace hsearch {
                 OccupancyGridPtr&,
                 //CollisionCheckerPtr,
                 ActionSpacePtr&,
-                RobotState,
-                double );
+                RobotState start_ );
         virtual RobotStates Succs( const RobotState& );
         virtual NodeIds Succs( const NodeId& );
         //virtual RobotStates Succs( const RobotState, std::vector<bool> )
