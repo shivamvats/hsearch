@@ -36,7 +36,7 @@ void testDijkstra(){
     RobotState start( std::vector<double>{ 0, 0, 0 } );
     double res = 0.05;
     auto pspace_ptr = make_shared<LatticePlanningSpace>(
-            grid, action_space_ptr, start, res );
+            grid, action_space_ptr, start );
     RobotState goal = {5, 5, 0};
     pspace_ptr->setGoal( goal );
     pspace_ptr->setGoalThresh( 0.1 );

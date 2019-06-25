@@ -25,7 +25,7 @@ namespace hsearch {
         return true;
     }
 
-    bool Visualizer::drawCurve( std::vector<std::pair<int, int>> points, int size, const Color& color ){
+    bool Visualizer::drawCurve( std::vector<std::pair<int, int>> points, int size, const Color color ){
         for( auto& point: points ){
             markPoint( point.first, point.second, size, color );
         }

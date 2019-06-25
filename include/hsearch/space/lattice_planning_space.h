@@ -18,9 +18,9 @@ namespace hsearch {
     class LatticePlanningSpace {
         public:
         LatticePlanningSpace(
-                OccupancyGridPtr&,
+                OccupancyGridPtr,
                 //CollisionCheckerPtr,
-                ActionSpacePtr&,
+                ActionSpacePtr,
                 RobotState start_ );
         virtual RobotStates Succs( const RobotState& );
         virtual NodeIds Succs( const NodeId& );

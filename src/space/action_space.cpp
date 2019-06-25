@@ -1,7 +1,7 @@
 #include "hsearch/space/action_space.h"
 
 namespace hsearch {
-    ActionSpace::ActionSpace( size_t dim_ ){
+    ActionSpace::ActionSpace( int dim_ ){
         m_dim = dim_;
     }
 
@@ -19,14 +19,14 @@ namespace hsearch {
         return succs;
     }
 
-    RobotState ActionSpace::applyAction( RobotState s_, size_t i ){
+    RobotState ActionSpace::applyAction( RobotState s_, int i ){
         assert( s_.size() == m_dim );
         assert( i < m_actions.size() );
 
         return addRobotStates( s_, m_actions[i] );
     }
 
-    size_t ActionSpace::dim() const {
+    int ActionSpace::dim() const {
         return m_dim;
     }
 }

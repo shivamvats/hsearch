@@ -12,15 +12,15 @@ namespace hsearch {
      */
     class ActionSpace {
         public:
-        ActionSpace( size_t );
+        ActionSpace( int );
 
-        bool addAction( Action );
-        RobotStates applyActions( RobotState );
-        RobotState applyAction( RobotState, size_t );
-        size_t dim() const;
+        bool addAction( const Action );
+        RobotStates applyActions( const RobotState );
+        RobotState applyAction( const RobotState, int );
+        int dim() const;
 
         Actions m_actions;
-        size_t m_dim;
+        int m_dim;
     };
 
     using ActionSpacePtr = std::shared_ptr<ActionSpace>;
