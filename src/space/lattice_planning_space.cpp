@@ -17,6 +17,8 @@ namespace hsearch {
 
     RobotStates LatticePlanningSpace::Succs( const RobotState& s_ ) {
         RobotStates succs = m_action_space_ptr->applyActions( s_ );
+        for( auto& succ: succs )
+            printVector(succ);
         return succs;
     }
 
@@ -31,7 +33,7 @@ namespace hsearch {
         return succs;
     }
 
-    bool LatticePlanningSpace::setStart( const RobotState& state_ ){
+    bool LatticePlanningSpace::setStart( const RobotState state_ ){
         //if( isValid( start_ ) ){
         //    m_start = start_;
         //    return true;
@@ -44,7 +46,7 @@ namespace hsearch {
         return true;
     }
 
-    bool LatticePlanningSpace::setGoal( const RobotState& state_ ){
+    bool LatticePlanningSpace::setGoal( const RobotState state_ ){
         m_goal = state_;
         return true;
     }
@@ -73,7 +75,8 @@ namespace hsearch {
     RobotCoord LatticePlanningSpace::robotStateToRobotCoord( const RobotState& robot_state_ ) const {
         RobotCoord robot_coord;
         int coord;
-        for( auto el : robot_state_ ){
+        for( double el : robot_state_ ){
+            std::cout<<el/m_res<<"\n";
             coord = el/m_res;
             robot_coord.push_back( coord );
         }
@@ -83,10 +86,14 @@ namespace hsearch {
     RobotState LatticePlanningSpace::robotCoordToRobotState( const RobotCoord& robot_coord_ ) const {
         RobotState robot_state;
         double state;
+        std::cout<<"RobotState: ";
         for( auto el : robot_coord_ ){
+            std::cout<<el<<"  ";
             state = el*m_res;
+            std::cout<<state<<"\t";
             robot_state.push_back( state );
         }
+        std::cout<<"\n";
         return robot_state;
     }
 

@@ -11,6 +11,8 @@ namespace hsearch {
 
     class TwoDimGridSpace : public LatticePlanningSpace {
         public:
+        using LatticePlanningSpace::setGoal;
+
         TwoDimGridSpace(
                 OccupancyGridPtr,
                 ActionSpacePtr,
@@ -22,7 +24,9 @@ namespace hsearch {
                 const double pixel_res_,
                 const cv::Point& start_ );
 
-        // Helper function
+        bool setGoal( const cv::Point );
+
+        // Helper functions
         OccupancyGridPtr constructOccGrid( const cv::Mat&, const double pixel_res_ );
         ActionSpacePtr constructActionSpace( const double pixel_res_, const int connectivity_ );
 

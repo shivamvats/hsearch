@@ -27,14 +27,14 @@ namespace hsearch {
             const int connectivity_ ){
         ActionSpacePtr action_space_ptr = std::make_shared<ActionSpace>( 2 );
         Action action1{ pixel_res_, 0 };
-        Action action2{ -pixel_res_, 0 };
+        //Action action2{ -pixel_res_, 0 };
         Action action3{ 0, pixel_res_ };
-        Action action4{ 0, -pixel_res_ };
+        //Action action4{ 0, -pixel_res_ };
         action_space_ptr->addAction( action1 );
-        action_space_ptr->addAction( action2 );
+        //action_space_ptr->addAction( action2 );
         action_space_ptr->addAction( action3 );
-        action_space_ptr->addAction( action4 );
-        if( m_connectivity == 8 ){
+        //action_space_ptr->addAction( action4 );
+        if( connectivity_ == 8 ){
             Action action5{ pixel_res_, pixel_res_ };
             Action action6{ pixel_res_, -pixel_res_ };
             Action action7{ -pixel_res_, pixel_res_ };
@@ -44,8 +44,9 @@ namespace hsearch {
             action_space_ptr->addAction( action7 );
             action_space_ptr->addAction( action8 );
         }
-        else if( m_connectivity != 4 )
+        else if( connectivity_ != 4 ){
             throw std::invalid_argument(" Received invalid value for the connectivity parameter.");
+        }
         return action_space_ptr;
     }
 
@@ -60,6 +61,11 @@ namespace hsearch {
                 std::vector<double> {pixel_res_*start_.x,
                 pixel_res_*start_.y } ),
         m_connectivity( connectivity_ ){}
+
+    bool TwoDimGridSpace::setGoal( const cv::Point goal_ ){
+        RobotState goal = { m_res*goal_.x, m_res*goal_.y };
+        return setGoal( goal );
+    }
 
 }
 
