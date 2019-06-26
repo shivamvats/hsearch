@@ -17,8 +17,6 @@ namespace hsearch {
 
     RobotStates LatticePlanningSpace::Succs( const RobotState& s_ ) {
         RobotStates succs = m_action_space_ptr->applyActions( s_ );
-        for( auto& succ: succs )
-            printVector(succ);
         return succs;
     }
 
@@ -76,8 +74,7 @@ namespace hsearch {
         RobotCoord robot_coord;
         int coord;
         for( double el : robot_state_ ){
-            std::cout<<el/m_res<<"\n";
-            coord = el/m_res;
+            coord = std::round(el/m_res);
             robot_coord.push_back( coord );
         }
         return robot_coord;
@@ -86,14 +83,10 @@ namespace hsearch {
     RobotState LatticePlanningSpace::robotCoordToRobotState( const RobotCoord& robot_coord_ ) const {
         RobotState robot_state;
         double state;
-        std::cout<<"RobotState: ";
         for( auto el : robot_coord_ ){
-            std::cout<<el<<"  ";
             state = el*m_res;
-            std::cout<<state<<"\t";
             robot_state.push_back( state );
         }
-        std::cout<<"\n";
         return robot_state;
     }
 

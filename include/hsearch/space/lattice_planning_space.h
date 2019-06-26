@@ -2,6 +2,7 @@
 #define LATTICE_PLANNING_SPACE_H
 
 #include <unordered_map>
+#include <boost/functional/hash.hpp>
 
 #include <hsearch/graph/lattice.h>
 #include <hsearch/space/action_space.h>
