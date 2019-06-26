@@ -1,3 +1,8 @@
+To Do
+=====
+
+[ ] Add EdgeChecker Class.
+
 Coding Standards
 ================
 
