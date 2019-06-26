@@ -7,6 +7,11 @@ namespace hsearch {
         m_map_visual = cv::Mat::zeros( width, height, CV_8UC3 );
     }
 
+    Visualizer::Visualizer( cv::Mat img_ ){
+        m_map_physical = img_;
+        m_map_visual = img_;
+    }
+
     void Visualizer::imshow( std::string window_name, int delay ){
         cv::imshow( window_name, m_map_visual );
         cv::waitKey( delay );

@@ -11,6 +11,7 @@ namespace hsearch {
     class Visualizer {
         public:
         Visualizer( int width, int height );
+        Visualizer( cv::Mat );
         void imshow( std::string window_name="map", int delay=0 );
         bool markPoint( int x, int y, int size=1, const Color& color=m_default_color );
         bool drawLine( std::pair<int, int> start, std::pair<int, int> end, int thickness, const Color& color=m_default_color );
