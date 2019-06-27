@@ -10,10 +10,12 @@ namespace hsearch {
      */
     class Visualizer {
         public:
+        static constexpr Color m_default_color={0, 0, 0};
+
         Visualizer( int width, int height );
         Visualizer( cv::Mat );
-        void imshow( std::string window_name="map", int delay=0 );
-        bool markPoint( int x, int y, int size=1, const Color& color=m_default_color );
+        void imshow( int delay=0, std::string window_name="map" );
+        bool markPoint( int x, int y, int size=1, const Color color=m_default_color );
         bool drawLine( std::pair<int, int> start, std::pair<int, int> end, int thickness, const Color& color=m_default_color );
         bool drawCurve( std::vector<std::pair<int, int>> points, int size=1, const Color color=m_default_color );
 
@@ -21,7 +23,6 @@ namespace hsearch {
         cv::Mat m_map_physical;
         cv::Mat m_map_visual;
 
-        static constexpr Color m_default_color={0, 0, 0};
     };
 
 } //namespace hsearch

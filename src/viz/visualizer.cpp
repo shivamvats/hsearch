@@ -12,12 +12,12 @@ namespace hsearch {
         m_map_visual = img_;
     }
 
-    void Visualizer::imshow( std::string window_name, int delay ){
+    void Visualizer::imshow( int delay, std::string window_name ){
         cv::imshow( window_name, m_map_visual );
         cv::waitKey( delay );
     }
 
-    bool Visualizer::markPoint( int x, int y, int size, const Color& color ){
+    bool Visualizer::markPoint( int x, int y, int size, const Color color ){
         cv::circle( m_map_visual, cv::Point(x, y), size,
                     cv::Scalar(color[0], color[1], color[2]), cv::FILLED );
         return true;
