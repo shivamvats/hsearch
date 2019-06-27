@@ -19,21 +19,22 @@ void testTwoDimGrid( char* img_path_ ){
     Visualizer viz( img );
     viz.imshow();
 
-
-    /*
-    RobotState start( std::vector<double>{ 0, 0, 0 } );
-    double res = 0.05;
+    cv::Point start( 100, 100 );
+    double res = 0.1;
+    int connectivity = 4;
     auto pspace_ptr = make_shared<TwoDimGridSpace>(
-            grid, action_space_ptr, start );
-    RobotState goal = {5, 5, 0};
+            img, connectivity, res, start );
+    cv::Point goal( 400, 100 );
     pspace_ptr->setGoal( goal );
     pspace_ptr->setGoalThresh( 0.1 );
 
-    cout<<"Start:\n";
-    printVector( start );
-    cout<<"Goal:\n";
-    printVector( goal );
-    Dijkstra planner( pspace_ptr );
+    //cout<<"Start:\n";
+    //printVector( start );
+    //cout<<"Goal:\n";
+    //printVector( goal );
+    auto lattice_space = dynamic_pointer_cast<LatticePlanningSpace>(pspace_ptr);
+    //LatticePlanningSpacePtr lattice_space( pspace_ptr.get() );
+    Dijkstra planner( lattice_space );
 
     NodeIds soltn;
     auto solved = planner.plan( 5, soltn );
@@ -42,7 +43,6 @@ void testTwoDimGrid( char* img_path_ ){
     else {
         cout<<"Planning succeeded.\n";
     }
-    */
 
 }
 

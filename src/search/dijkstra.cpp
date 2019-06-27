@@ -1,7 +1,8 @@
 #include <chrono>
 #include <hsearch/search/dijkstra.h>
+#include <hsearch/types.h>
 
-bool DEBUG = 0;
+bool DEBUG = 1;
 
 namespace hsearch {
     Dijkstra::Dijkstra( LatticePlanningSpacePtr& pspace_ptr_  ) : LatticePlanner( pspace_ptr_ ){
@@ -33,8 +34,10 @@ namespace hsearch {
 
             auto curr_time = std::chrono::high_resolution_clock::now();
             if( std::chrono::duration_cast<std::chrono::seconds>
-                    ( curr_time - start_time ).count() > allocated_time_sec_ )
+                    ( curr_time - start_time ).count() > allocated_time_sec_ ){
+                std::cout<<"Time out\n";
                 return 1;
+            }
 
             curr_state_ptr = m_open.min();
             m_open.pop();
@@ -45,7 +48,9 @@ namespace hsearch {
             NodeIds succs = m_pspace_ptr->Succs( curr_state_ptr->node_id );
 
             if( ::DEBUG ){
-                std::cout<<"Current state: "<<curr_state_ptr->g<<"\n";
+                std::cout<<"Current state: ";
+                printVector(m_pspace_ptr->nodeIdToRobotState(curr_state_ptr->node_id));
+                std::cout<<"Current state g: "<<curr_state_ptr->g<<"\n";
                 std::cout<<"Open: "<<m_open.size()<<"\n";
                 std::cout<<"Succs: "<<succs.size()<<"\n";
             }
@@ -53,6 +58,8 @@ namespace hsearch {
                 auto search_state_ptr = getSearchStatePtr( succ );
                 int new_g = curr_state_ptr->g + 1;
                 if( ::DEBUG ){
+                    std::cout<<"Succ: ";
+                    printVector(m_pspace_ptr->nodeIdToRobotState(search_state_ptr->node_id));
                     std::cout<<"Old g: "<<search_state_ptr->g<<"\n";
                     std::cout<<"New g: "<<new_g<<"\n";
                 }
@@ -63,6 +70,7 @@ namespace hsearch {
                 }
             }
         }
+        std::cout<<"Ran out of nodes.\n";
         return 1;
     }
 
