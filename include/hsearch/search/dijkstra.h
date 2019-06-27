@@ -38,6 +38,7 @@ namespace hsearch {
         using SearchStatePtr = SearchState*;
 
         SearchStatePtr getSearchStatePtr( const NodeId& );
+        bool extractPath( SearchStatePtr goal_, NodeIds& path_ );
 
         using OpenList = smpl::intrusive_heap<SearchState, SearchStateCompare>;
 

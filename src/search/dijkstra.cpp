@@ -2,7 +2,7 @@
 #include <hsearch/search/dijkstra.h>
 #include <hsearch/types.h>
 
-bool DEBUG = 1;
+bool DEBUG = 0;
 
 namespace hsearch {
     Dijkstra::Dijkstra( LatticePlanningSpacePtr& pspace_ptr_  ) : LatticePlanner( pspace_ptr_ ){
@@ -19,6 +19,19 @@ namespace hsearch {
         return m_pspace_ptr->isGoal( node_id_ );
     }
 
+    bool Dijkstra::extractPath( SearchStatePtr goal_state_ptr_, NodeIds& path_ ){
+        auto state_ptr = goal_state_ptr_;
+        NodeId id = state_ptr->node_id;
+        path_.push_back( id );
+        while( id != m_start_node_id ){
+            state_ptr = state_ptr->bp;
+            id = state_ptr->node_id;
+            path_.push_back( id );
+        }
+        std::reverse( path_.begin(), path_.end() );
+        return true;
+    }
+
     bool Dijkstra::plan( double allocated_time_sec_, NodeIds& path_ ){
         SearchStatePtr curr_state_ptr = getSearchStatePtr( m_start_node_id );
         curr_state_ptr->g = 0;
@@ -29,14 +42,15 @@ namespace hsearch {
         while(!m_open.empty() ){
             if( isGoal( curr_state_ptr->node_id ) ){
                 std::cout<<"Goal found. Cost: "<<curr_state_ptr->g<<"\n";
-                return 0;
+                extractPath( curr_state_ptr, path_ );
+                return 1;
             }
 
             auto curr_time = std::chrono::high_resolution_clock::now();
             if( std::chrono::duration_cast<std::chrono::seconds>
                     ( curr_time - start_time ).count() > allocated_time_sec_ ){
                 std::cout<<"Time out\n";
-                return 1;
+                return 0;
             }
 
             curr_state_ptr = m_open.min();
@@ -71,7 +85,7 @@ namespace hsearch {
             }
         }
         std::cout<<"Ran out of nodes.\n";
-        return 1;
+        return 0;
     }
 
     Dijkstra::SearchStatePtr Dijkstra::getSearchStatePtr( const NodeId& node_id_ ){
