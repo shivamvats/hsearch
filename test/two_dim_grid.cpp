@@ -11,6 +11,14 @@
 using namespace std;
 using namespace hsearch;
 
+void visualizeSoltn( Visualizer& viz, std::vector<RobotCoord> path_ ){
+    for( auto& point: path_ ){
+        viz.markPoint( point[0], point[1], 1, std::array<int, 3>{ 100, 100, 100 } );
+        viz.imshow(1);
+    }
+    viz.imshow();
+}
+
 void testTwoDimGrid( char* img_path_ ){
     cout<<"Testing Two Dim Grid Space\n";
     cout<<"=========================\n";
@@ -38,12 +46,17 @@ void testTwoDimGrid( char* img_path_ ){
 
     NodeIds soltn;
     auto solved = planner.plan( 5, soltn );
-    if( solved )
-        cout<<"Failed to plan.\n";
-    else {
+    if( solved ){
+        std::vector<RobotCoord> path_points;
+        for( auto id: soltn )
+            path_points.push_back( pspace_ptr->nodeIdToRobotCoord( id ) );
+        visualizeSoltn( viz, path_points );
+
         cout<<"Planning succeeded.\n";
     }
-
+    else {
+        cout<<"Failed to plan.\n";
+    }
 }
 
 int main( int argc, char** argv ){
