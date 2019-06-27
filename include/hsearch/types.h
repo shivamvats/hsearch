@@ -9,6 +9,7 @@
 
 //#include <smpl/collision_checker.h>
 #include <smpl/occupancy_grid.h>
+#include <smpl/collision_checker.h>
 
 namespace hsearch {
     using Node = size_t;
@@ -31,6 +32,9 @@ namespace hsearch {
 
     using OccupancyGrid = smpl::OccupancyGrid;
     using OccupancyGridPtr = std::shared_ptr<smpl::OccupancyGrid>;
+
+    using CollisionChecker = smpl::CollisionChecker;
+    using CollisionCheckerPtr = std::shared_ptr<CollisionChecker>;
 
     using Color = std::array<int, 3>;
 
