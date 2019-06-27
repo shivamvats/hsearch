@@ -14,25 +14,12 @@ namespace hsearch {
         using LatticePlanningSpace::setGoal;
 
         TwoDimGridSpace(
-                OccupancyGridPtr,
+                CollisionCheckerPtr,
                 ActionSpacePtr,
-                RobotState start_ );
-        // Initialize from an opencv image
-        TwoDimGridSpace(
-                const cv::Mat& img_,
-                const int connectivity_,
-                const double pixel_res_,
-                const cv::Point& start_ );
+                RobotState start_,
+                const double res_ );
 
         bool setGoal( const cv::Point );
-
-        // Helper functions
-        OccupancyGridPtr constructOccGrid( const cv::Mat&, const double pixel_res_ );
-        ActionSpacePtr constructActionSpace( const double pixel_res_, const int connectivity_ );
-
-
-        public:
-        int m_connectivity;
     };
 
 }
