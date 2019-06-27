@@ -24,9 +24,14 @@ namespace hsearch {
     NodeIds LatticePlanningSpace::Succs( const NodeId& node_id_ ){
         RobotState robot_state = nodeIdToRobotState( node_id_ );
         auto robot_succs = Succs( robot_state );
+        RobotStates valid_succs;
+        for( auto& state: robot_succs ){
+            if( m_collision_checker_ptr->isStateValid( state ) )
+                valid_succs.push_back( state );
+        }
         std::vector<NodeId> succs;
-        succs.resize( robot_succs.size() );
-        std::transform( robot_succs.begin(), robot_succs.end(), succs.begin(), [this]( RobotState s ){
+        succs.resize( valid_succs.size() );
+        std::transform( valid_succs.begin(), valid_succs.end(), succs.begin(), [this]( RobotState s ){
                 return robotStateToNodeId( s );
                 } );
         return succs;

@@ -25,13 +25,26 @@ void visualizeSoltn( Visualizer& viz, std::vector<RobotCoord> path_ ){
 OccupancyGridPtr constructOccGrid(
         const cv::Mat& img_,
         const double pixel_res_ ){
-    int size_x = pixel_res_*img_.cols;
-    int size_y = pixel_res_*img_.rows;
-    int size_z = pixel_res_;
+    const double size_x = pixel_res_*img_.cols;
+    const double size_y = pixel_res_*img_.rows;
+    const double size_z = 1.5*pixel_res_;
     double max_dist = 1;
     double origin_x=0, origin_y=0, origin_z=0;
     OccupancyGridPtr occ_grid_ptr = std::make_shared<OccupancyGrid>( size_x, size_y,
                     size_z, pixel_res_, origin_x, origin_y, origin_z, max_dist );
+
+    std::vector<smpl::Vector3> occupied_points;
+    smpl::Vector3 v {0, 0, 0};
+    for( int i=0; i<img_.rows; i++ ){
+        for( int j=0; j<img_.cols; j++ ){
+            if( int(img_.at<uchar>( i, j )) < 100 ){
+                occ_grid_ptr->gridToWorld( j, i, 0, v[0], v[1], v[2] );
+                occupied_points.push_back(v);
+            }
+        }
+    }
+    occ_grid_ptr->addPointsToField( occupied_points );
+    //cout<<"Occupied voxels: "<<occ_grid_ptr->getOccupiedVoxelCount()<<"\n";
     return occ_grid_ptr;
 }
 
@@ -69,15 +82,15 @@ void testTwoDimGrid( char* img_path_ ){
 
     cv::Mat img = cv::imread( img_path_, CV_LOAD_IMAGE_GRAYSCALE );
     Visualizer viz( img );
-    viz.imshow();
+    viz.imshow(0);
 
-    cv::Point start( 100, 100 );
-    double res = 0.1;
+    cv::Point start( 50, 50 );
+    double res = 0.01;
     int connectivity = 4;
 
     auto grid_ptr = constructOccGrid( img, res );
     auto collision_checker_ptr = make_shared<TwoDimGridCollisionChecker>( grid_ptr.get() );
-    auto action_space_ptr = constructActionSpace( res, connectivity );
+    auto action_space_ptr = constructActionSpace( 8*res, connectivity );
     std::vector<double> s = {res*start.x, res*start.y };
 
     auto pspace_ptr = make_shared<TwoDimGridSpace>(
