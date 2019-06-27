@@ -19,10 +19,10 @@ namespace hsearch {
     class LatticePlanningSpace {
         public:
         LatticePlanningSpace(
-                OccupancyGridPtr,
-                //CollisionCheckerPtr,
+                CollisionCheckerPtr,
                 ActionSpacePtr,
-                RobotState start_ );
+                RobotState start_,
+                const double res_ );
         virtual RobotStates Succs( const RobotState& );
         virtual NodeIds Succs( const NodeId& );
         //virtual RobotStates Succs( const RobotState, std::vector<bool> )
@@ -40,6 +40,7 @@ namespace hsearch {
         RobotCoord nodeIdToRobotCoord( const NodeId&  ) const;
         RobotState nodeIdToRobotState( const NodeId& ) const;
 
+        CollisionCheckerPtr m_collision_checker_ptr;
         const ActionSpacePtr m_action_space_ptr;
         double m_res;
         RobotState m_start;

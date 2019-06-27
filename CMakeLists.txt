@@ -11,6 +11,7 @@ find_package( smpl CONFIG REQUIRED )
 set(SOURCE_FILES
     src/graph/directed_acyclic_graph.cpp
     src/graph/lattice.cpp
+    src/collision_checking/two_dim_grid_collision_checker.cpp
     src/space/action_space.cpp
     src/space/lattice_planning_space.cpp
     src/space/two_dim_grid_space.cpp
@@ -36,11 +37,11 @@ target_link_libraries( hsearch
 #target_include_directories( viz_matplot PRIVATE ${PYTHON_INCLUDE_DIRS} )
 #target_link_libraries( viz_matplot hsearch ${PYTHON_LIBRARIES} )
 
-add_executable(test_graph test/graph.cpp)
-target_link_libraries(test_graph hsearch )
+#add_executable(test_graph test/graph.cpp)
+#target_link_libraries(test_graph hsearch )
 
-add_executable( test_dijkstra test/dijkstra.cpp )
-target_link_libraries( test_dijkstra hsearch )
+#add_executable( test_dijkstra test/dijkstra.cpp )
+#target_link_libraries( test_dijkstra hsearch )
 
 add_executable( test_viz test/visualizer.cpp )
 target_link_libraries( test_viz hsearch )

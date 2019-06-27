@@ -7,13 +7,14 @@
 namespace hsearch {
 
     LatticePlanningSpace::LatticePlanningSpace(
-            OccupancyGridPtr occ_grid_ptr_,
+            CollisionCheckerPtr collision_checker_,
             ActionSpacePtr action_space_ptr_,
-            RobotState start_ ) :
-        // collision_checker,
+            RobotState start_,
+            const double res_ ) :
+        m_collision_checker_ptr( collision_checker_ ),
         m_action_space_ptr( action_space_ptr_ ),
         m_start( start_ ),
-        m_res( occ_grid_ptr_->resolution() ){}
+        m_res( res_ ){}
 
     RobotStates LatticePlanningSpace::Succs( const RobotState& s_ ) {
         RobotStates succs = m_action_space_ptr->applyActions( s_ );

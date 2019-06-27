@@ -10,7 +10,6 @@ namespace hsearch {
      */
     class Visualizer {
         public:
-        static constexpr Color m_default_color={0, 0, 0};
 
         Visualizer( int width, int height );
         Visualizer( cv::Mat );
@@ -22,6 +21,7 @@ namespace hsearch {
         public:
         cv::Mat m_map_physical;
         cv::Mat m_map_visual;
+        static constexpr Color m_default_color = {0, 0, 0};
 
     };
 
