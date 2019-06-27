@@ -2,6 +2,7 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc.hpp>
+#include <chrono>
 
 #include <hsearch/types.h>
 #include <hsearch/collision_checking/two_dim_grid_collision_checker.h>
@@ -90,7 +91,7 @@ void testTwoDimGrid( char* img_path_ ){
 
     auto grid_ptr = constructOccGrid( img, res );
     auto collision_checker_ptr = make_shared<TwoDimGridCollisionChecker>( grid_ptr.get() );
-    auto action_space_ptr = constructActionSpace( 8*res, connectivity );
+    auto action_space_ptr = constructActionSpace( res, connectivity );
     std::vector<double> s = {res*start.x, res*start.y };
 
     auto pspace_ptr = make_shared<TwoDimGridSpace>(
@@ -98,7 +99,7 @@ void testTwoDimGrid( char* img_path_ ){
             action_space_ptr,
             s,
             res );
-    cv::Point goal( 400, 100 );
+    cv::Point goal( 400, 400 );
     pspace_ptr->setGoal( goal );
     pspace_ptr->setGoalThresh( 0.1 );
 
@@ -111,7 +112,10 @@ void testTwoDimGrid( char* img_path_ ){
     Dijkstra planner( lattice_space );
 
     NodeIds soltn;
+    auto start_time = std::chrono::high_resolution_clock::now();
     auto solved = planner.plan( 5, soltn );
+    auto finish_time = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed_time = finish_time - start_time;
     if( solved ){
         std::vector<RobotCoord> path_points;
         for( auto id: soltn )
@@ -119,6 +123,8 @@ void testTwoDimGrid( char* img_path_ ){
         visualizeSoltn( viz, path_points );
 
         cout<<"Planning succeeded.\n";
+        cout<<"Time taken: "<<elapsed_time.count()<<"s\n";
+        viz.imwrite("planned_path.jpg");
     }
     else {
         cout<<"Failed to plan.\n";

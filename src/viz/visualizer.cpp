@@ -17,6 +17,10 @@ namespace hsearch {
         cv::waitKey( delay );
     }
 
+    void Visualizer::imwrite( std::string file_name_ ){
+        cv::imwrite( file_name_, m_map_visual );
+    }
+
     bool Visualizer::markPoint( int x, int y, int size, const Color color ){
         cv::circle( m_map_visual, cv::Point(x, y), size,
                     cv::Scalar(color[0], color[1], color[2]), cv::FILLED );

@@ -14,6 +14,7 @@ namespace hsearch {
         Visualizer( int width, int height );
         Visualizer( cv::Mat );
         void imshow( int delay=0, std::string window_name="map" );
+        void imwrite( std::string );
         bool markPoint( int x, int y, int size=1, const Color color=m_default_color );
         bool drawLine( std::pair<int, int> start, std::pair<int, int> end, int thickness, const Color& color=m_default_color );
         bool drawCurve( std::vector<std::pair<int, int>> points, int size=1, const Color color=m_default_color );
