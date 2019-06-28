@@ -12,7 +12,7 @@ namespace hsearch {
 
         bool isStateValid(
                 const RobotState&,
-                bool verbose_ ) override;
+                bool verbose_=false ) override;
 
         bool isStateToStateValid(
             const RobotState&,
@@ -27,6 +27,8 @@ namespace hsearch {
         public:
         OccupancyGrid* m_grid;
     };
+
+    using TwoDimGridCollisionCheckerPtr = std::shared_ptr<TwoDimGridCollisionChecker>;
 
 }
 

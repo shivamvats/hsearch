@@ -3,6 +3,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 #include <chrono>
+#include <random>
 
 #include <hsearch/types.h>
 #include <hsearch/collision_checking/two_dim_grid_collision_checker.h>
@@ -77,6 +78,49 @@ ActionSpacePtr constructActionSpace(
     return action_space_ptr;
 }
 
+bool getRandStartGoal(
+        TwoDimGridCollisionCheckerPtr collision_checker_ptr_,
+        double size_x,
+        double size_y,
+        double min_dist_,
+        RobotState& start_,
+        RobotState& goal_ ){
+    std::default_random_engine generator;
+    std::uniform_real_distribution<double> distribution( 0.0, 1.0 );
+
+    bool pair_found = false;
+    while( !pair_found ){
+        bool start_found = false;
+        double x = distribution(generator)*size_x;
+        double y = distribution(generator)*size_y;
+        start_ = {x, y};
+        if(!collision_checker_ptr_->isStateValid( start_ ))
+            continue;
+        start_found = true;
+
+        bool goal_found = false;
+        x = distribution(generator)*size_x;
+        y = distribution(generator)*size_y;
+        goal_ = {x, y};
+        if( !collision_checker_ptr_->isStateValid( goal_ ) )
+            continue;
+        goal_found = true;
+
+        auto sq_distance_bw = [](RobotState a, RobotState b){
+            return ( a[0] - b[0] )*( a[0] - b[0] ) +
+                ( a[1] - b[1] )*( a[1] - b[1] );
+        };
+        if( start_found && goal_found &&
+                sq_distance_bw( start_, goal_ ) > min_dist_*min_dist_ )
+            pair_found = true;
+    }
+    if( pair_found )
+        return true;
+    else
+        return false;
+
+}
+
 void testTwoDimGrid( char* img_path_ ){
     cout<<"Testing Two Dim Grid Space\n";
     cout<<"=========================\n";
@@ -88,10 +132,11 @@ void testTwoDimGrid( char* img_path_ ){
     cv::Point start( 50, 50 );
     double res = 0.01;
     int connectivity = 4;
+    double planning_res = 8*res;
 
     auto grid_ptr = constructOccGrid( img, res );
     auto collision_checker_ptr = make_shared<TwoDimGridCollisionChecker>( grid_ptr.get() );
-    auto action_space_ptr = constructActionSpace( res, connectivity );
+    auto action_space_ptr = constructActionSpace( planning_res, connectivity );
     std::vector<double> s = {res*start.x, res*start.y };
 
     auto pspace_ptr = make_shared<TwoDimGridSpace>(
@@ -99,8 +144,12 @@ void testTwoDimGrid( char* img_path_ ){
             action_space_ptr,
             s,
             res );
-    cv::Point goal( 400, 400 );
-    pspace_ptr->setGoal( goal );
+    //cv::Point goal( 400, 400 );
+
+     RobotState rand_start, rand_goal;
+    getRandStartGoal( collision_checker_ptr, img.cols*res, img.rows*res, 5*res, rand_start, rand_goal );
+    pspace_ptr->setStart( rand_start );
+    pspace_ptr->setGoal( rand_goal );
     pspace_ptr->setGoalThresh( 0.1 );
 
     //cout<<"Start:\n";
