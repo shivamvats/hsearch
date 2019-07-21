@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 11)
 find_package( Eigen3 REQUIRED )
 #find_package(PythonLibs 2.7 EXACT REQUIRED)
 find_package( OpenCV 3 REQUIRED )
+find_package( Boost REQUIRED )
 list( APPEND CMAKE_PREFIX_PATH "/Users/aries/local" )
 find_package( smpl CONFIG REQUIRED )
 
@@ -26,11 +27,13 @@ target_include_directories( hsearch PUBLIC
     ${Eigen3_INCLUDE_DIRS}
     ${smpl_INCLUDE_DIRS}
     ${OpenCV_INCLUDE_DIRS}
+    ${Boost_INCLUDE_DIRS}
     )
 target_link_libraries( hsearch
     ${Eigen3_LIBRARIES}
     ${smpl_LIBRARIES}
     ${OpenCV_LIBRARIES}
+    ${Boost_LIBRARIES}
     )
 
 #add_executable( viz_matplot src/viz/viz_matplot.cpp )
@@ -48,3 +51,6 @@ target_link_libraries( test_viz hsearch )
 
 add_executable( test_two_dim_grid test/two_dim_grid.cpp )
 target_link_libraries( test_two_dim_grid hsearch )
+
+add_executable( curve_similarity src/curve_similarity.cpp )
+target_link_libraries( curve_similarity hsearch )
