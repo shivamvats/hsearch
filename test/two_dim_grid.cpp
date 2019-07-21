@@ -84,8 +84,9 @@ bool getRandStartGoal(
         double size_y,
         double min_dist_,
         RobotState& start_,
-        RobotState& goal_ ){
-    std::default_random_engine generator;
+        RobotState& goal_,
+        double seed_=100 ){
+    std::default_random_engine generator( seed_ );
     std::uniform_real_distribution<double> distribution( 0.0, 1.0 );
 
     bool pair_found = false;
@@ -132,7 +133,7 @@ void testTwoDimGrid( char* img_path_ ){
     cv::Point start( 50, 50 );
     double res = 0.01;
     int connectivity = 4;
-    double planning_res = 8*res;
+    double planning_res = res;
 
     auto grid_ptr = constructOccGrid( img, res );
     auto collision_checker_ptr = make_shared<TwoDimGridCollisionChecker>( grid_ptr.get() );
@@ -173,6 +174,7 @@ void testTwoDimGrid( char* img_path_ ){
 
         cout<<"Planning succeeded.\n";
         cout<<"Time taken: "<<elapsed_time.count()<<"s\n";
+        cout<<"Expansions: "<<planner.m_closed.size()<<"\n";
         viz.imwrite("planned_path.jpg");
     }
     else {
