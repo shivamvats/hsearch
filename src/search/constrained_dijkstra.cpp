@@ -1,6 +1,6 @@
 #include <hsearch/search/constrained_dijkstra.h>
 
-static bool DEBUG = 1;
+static bool DEBUG = 0;
 
 namespace hsearch {
     ConstrainedDijkstra::ConstrainedDijkstra(
@@ -38,19 +38,20 @@ namespace hsearch {
             m_open.pop();
             if( m_closed.count( curr_state_ptr->node_id  ) )
                 continue;
-            m_closed.insert( curr_state_ptr->node_id );
-
             NodeIds path;
             extractPath( curr_state_ptr, path );
-            /*
-            if( m_open.size() > 1000 ){
-                std::cout<<m_open.size()<<"\n";
+            ///*
+            if( m_open.size() > 10 ){
                 if( !constrained_pspace_ptr->satisfiesConstraints( path ) ){
                     m_suspended.push( curr_state_ptr );
+                    std::cout<<"Suspended size: "<<m_suspended.size()<<"\n";
                     continue;
                 }
             }
-            */
+            //*/
+            // Insert into closed only if not suspended.
+            m_closed.insert( curr_state_ptr->node_id );
+            m_node_expansions.push_back( curr_state_ptr->node_id );
 
             NodeIds succs = m_pspace_ptr->Succs( curr_state_ptr->node_id );
 

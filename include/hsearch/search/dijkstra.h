@@ -46,6 +46,8 @@ namespace hsearch {
         OpenList m_open;
         std::unordered_set<NodeId> m_closed;
         std::unordered_map<NodeId, SearchStatePtr> m_node_id_to_search_state;
+        //To store order of expansion.
+        std::vector<NodeId> m_node_expansions;
 
         NodeId m_start_node_id;
 
