@@ -1,7 +1,7 @@
 To Do
 =====
 
-[ ] Add EdgeChecker Class.
+[x] Add CollisionChecker
 
 Coding Standards
 ================
@@ -20,7 +20,7 @@ Coding Standards
     
 * Variable naming policy:
     - all variables are in lower case, words separated by underscore.
-    - pointers begin with an underscore.
+    - pointers end with `_ptr`.
 
 Design
 ======
