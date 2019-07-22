@@ -10,7 +10,7 @@ namespace hsearch {
         ConstrainedDijkstra( LatticePlanningSpacePtr& );
         ~ConstrainedDijkstra(){};
 
-        virtual void clear();
+        void reinit() override;
         virtual bool plan( const double, NodeIds& ) override;
 
         public:

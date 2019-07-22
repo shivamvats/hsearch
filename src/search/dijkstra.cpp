@@ -32,9 +32,14 @@ namespace hsearch {
         return true;
     }
 
-    void Dijkstra::clear(){
+    void Dijkstra::reinit(){
         m_open.clear();
         m_closed.clear();
+        for( auto& it : m_node_id_to_search_state ){
+            delete it.second;
+        }
+        m_node_id_to_search_state.clear();
+        m_start_node_id = m_pspace_ptr->robotStateToNodeId( m_pspace_ptr->m_start );
     }
 
     bool Dijkstra::plan( double allocated_time_sec_, NodeIds& path_ ){

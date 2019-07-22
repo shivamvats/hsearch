@@ -39,7 +39,7 @@ namespace hsearch {
 
         SearchStatePtr getSearchStatePtr( const NodeId& );
         bool extractPath( SearchStatePtr goal_, NodeIds& path_ );
-        virtual void clear();
+        virtual void reinit();
 
         using OpenList = smpl::intrusive_heap<SearchState, SearchStateCompare>;
 

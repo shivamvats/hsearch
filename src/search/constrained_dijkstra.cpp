@@ -7,14 +7,12 @@ namespace hsearch {
             LatticePlanningSpacePtr& pspace_ptr_ ) :
             Dijkstra( pspace_ptr_ ) {}
 
-    void ConstrainedDijkstra::clear(){
-        m_open.clear();
-        m_closed.clear();
+    void ConstrainedDijkstra::reinit(){
         m_suspended.clear();
+        Dijkstra::reinit();
     }
 
     bool ConstrainedDijkstra::plan( double allocated_time_sec_, NodeIds& path_ ){
-        std::cout<<"hi\n";
         SearchStatePtr curr_state_ptr = getSearchStatePtr( m_start_node_id );
         curr_state_ptr->g = 0;
         m_open.push( curr_state_ptr );
@@ -44,7 +42,6 @@ namespace hsearch {
 
             NodeIds path;
             extractPath( curr_state_ptr, path );
-            std::cout<<m_open.size()<<"\n";
             /*
             if( m_open.size() > 1000 ){
                 std::cout<<m_open.size()<<"\n";
