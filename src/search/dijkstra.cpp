@@ -2,7 +2,7 @@
 #include <hsearch/search/dijkstra.h>
 #include <hsearch/types.h>
 
-bool DEBUG = 0;
+static bool DEBUG = 0;
 
 namespace hsearch {
     Dijkstra::Dijkstra( LatticePlanningSpacePtr& pspace_ptr_  ) : LatticePlanner( pspace_ptr_ ){
@@ -30,6 +30,11 @@ namespace hsearch {
         }
         std::reverse( path_.begin(), path_.end() );
         return true;
+    }
+
+    void Dijkstra::clear(){
+        m_open.clear();
+        m_closed.clear();
     }
 
     bool Dijkstra::plan( double allocated_time_sec_, NodeIds& path_ ){
