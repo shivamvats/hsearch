@@ -23,6 +23,8 @@ namespace hsearch {
         double m_thresh;
     };
 
+    using ConstrainedTwoDimGridSpacePtr = std::shared_ptr<ConstrainedTwoDimGridSpace>;
+
 }
 
 #endif /* ifndef CONSTRAINED_TWO_DIM_GRID_SPACE

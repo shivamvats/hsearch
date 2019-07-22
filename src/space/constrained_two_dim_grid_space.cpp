@@ -21,14 +21,24 @@ namespace hsearch {
     }
 
     bool ConstrainedTwoDimGridSpace::satisfiesConstraints( const NodeIds node_ids_ ){
+        if( m_path_constraints.empty() )
+            return true;
+
+        int N = node_ids_.size();
+        if( N > m_path_constraints[0].size() )
+            return true;
+        auto path_constraint = LineString( m_path_constraints[0].begin(), m_path_constraints[0].begin() + N );
+
         LineString path;
         RobotState state;
         for( auto& id: node_ids_ ){
             state = nodeIdToRobotState( id );
             path.push_back( PointXY( state[0], state[1] ) );
         }
-        return boost::geometry::discrete_frechet_distance(
-                path, m_path_constraints[0] ) > m_thresh;
+        double dist = boost::geometry::discrete_frechet_distance(
+                path, path_constraint );
+        std::cout<<dist<<"\n";
+        return dist > m_thresh;
     }
 
 }
