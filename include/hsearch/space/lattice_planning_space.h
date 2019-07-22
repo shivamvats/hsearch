@@ -40,6 +40,9 @@ namespace hsearch {
         RobotCoord nodeIdToRobotCoord( const NodeId&  ) const;
         RobotState nodeIdToRobotState( const NodeId& ) const;
 
+        void clear();
+
+        public:
         CollisionCheckerPtr m_collision_checker_ptr;
         const ActionSpacePtr m_action_space_ptr;
         double m_res;

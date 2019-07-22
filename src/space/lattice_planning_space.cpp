@@ -47,6 +47,8 @@ namespace hsearch {
         //    return false;
         //}
         m_start = state_;
+        // Inserts start to map
+        robotStateToNodeId( state_ );
         return true;
     }
 
@@ -120,13 +122,19 @@ namespace hsearch {
         if( iter != m_node_id_to_robot_coord.end() )
             return iter->second;
         else {
-            throw std::runtime_error( "node-id not in map." );
+            std::string msg = "node-id: " + std::to_string(node_id_) + " not in map.";
+            throw std::runtime_error( msg.c_str() );
         }
     }
 
     RobotState LatticePlanningSpace::nodeIdToRobotState( const NodeId& node_id_ ) const {
         auto robot_coord = nodeIdToRobotCoord( node_id_ );
         return robotCoordToRobotState( robot_coord );
+    }
+
+    void LatticePlanningSpace::clear(){
+        m_robot_coord_to_node_id.clear();
+        m_node_id_to_robot_coord.clear();
     }
 
 } //namespace hsearch
