@@ -9,7 +9,7 @@
 #include <hsearch/collision_checking/two_dim_grid_collision_checker.h>
 #include <hsearch/space/action_space.h>
 #include <hsearch/space/constrained_two_dim_grid_space.h>
-#include <hsearch/search/dijkstra.h>
+#include <hsearch/search/constrained_dijkstra.h>
 #include <hsearch/viz/visualizer.h>
 
 using namespace std;
@@ -127,7 +127,7 @@ void testConstrainedTwoDimGrid( char* img_path_ ){
 
     cv::Mat img = cv::imread( img_path_, CV_LOAD_IMAGE_GRAYSCALE );
     Visualizer viz( img );
-    //viz.imshow(0);
+    viz.imshow(0);
 
     cv::Point start( 50, 50 );
     double res = 0.01;
@@ -158,13 +158,11 @@ void testConstrainedTwoDimGrid( char* img_path_ ){
     //printVector( goal );
     auto lattice_space = dynamic_pointer_cast<LatticePlanningSpace>(pspace_ptr);
     //LatticePlanningSpacePtr lattice_space( pspace_ptr.get() );
-    //ConstrainedDijkstra planner( lattice_space );
-    Dijkstra planner( lattice_space );
+    ConstrainedDijkstra planner( lattice_space );
 
     NodeIds soltn;
     auto start_time = std::chrono::high_resolution_clock::now();
-    auto solved = planner.plan( 5, soltn );
-    auto finish_time = std::chrono::high_resolution_clock::now();
+    auto solved = planner.plan( 5, soltn ); auto finish_time = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed_time = finish_time - start_time;
     if( !solved ){
         throw "Failed to plan.";
@@ -179,10 +177,36 @@ void testConstrainedTwoDimGrid( char* img_path_ ){
         constraint_curve.push_back( PointXY( state[0], state[1] ) );
     }
 
+    if( solved ){
+        std::vector<RobotCoord> path_points;
+        for( auto id: soltn )
+            path_points.push_back( pspace_ptr->nodeIdToRobotCoord( id ) );
+        visualizeSoltn( viz, path_points );
+    }
+
     pspace_ptr->addPathConstraint( constraint_curve );
     auto out = pspace_ptr->satisfiesConstraints( soltn );
-    cout<<"Satisfied: "<<out<<"\n";
+    soltn.clear();
+    planner.clear();
 
+    // Constrained Planning
+    start_time = std::chrono::high_resolution_clock::now();
+    solved = planner.plan( 5, soltn );
+    finish_time = std::chrono::high_resolution_clock::now();
+    elapsed_time = finish_time - start_time;
+    if( !solved ){
+        throw "Failed to plan.";
+    }
+    cout<<"Planning succeeded.\n";
+    cout<<"Time taken: "<<elapsed_time.count()<<"s\n";
+    cout<<"Expansions: "<<planner.m_closed.size()<<"\n";
+
+    if( solved ){
+        std::vector<RobotCoord> path_points;
+        for( auto id: soltn )
+            path_points.push_back( pspace_ptr->nodeIdToRobotCoord( id ) );
+        visualizeSoltn( viz, path_points );
+    }
 }
 
 int main( int argc, char** argv ){
