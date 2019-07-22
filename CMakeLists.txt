@@ -19,6 +19,7 @@ set(SOURCE_FILES
     src/space/constrained_two_dim_grid_space.cpp
     src/search/lattice_planner.cpp
     src/search/dijkstra.cpp
+    src/search/constrained_dijkstra.cpp
     src/viz/visualizer.cpp
     )
 
