@@ -16,6 +16,7 @@ set(SOURCE_FILES
     src/space/action_space.cpp
     src/space/lattice_planning_space.cpp
     src/space/two_dim_grid_space.cpp
+    src/space/constrained_two_dim_grid_space.cpp
     src/search/lattice_planner.cpp
     src/search/dijkstra.cpp
     src/viz/visualizer.cpp

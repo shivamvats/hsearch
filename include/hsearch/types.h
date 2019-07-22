@@ -6,6 +6,8 @@
 #include <array>
 #include <utility>
 #include <memory>
+#include <boost/geometry/geometries/point_xy.hpp>
+#include <boost/geometry/geometries/linestring.hpp>
 
 //#include <smpl/collision_checker.h>
 #include <smpl/occupancy_grid.h>
@@ -38,6 +40,8 @@ namespace hsearch {
 
     using Color = std::array<int, 3>;
 
+    using PointXY = boost::geometry::model::d2::point_xy<double>;
+    using LineString = boost::geometry::model::linestring<PointXY>;
     //using CollisionCheckerPtr = std::unique_ptr<smpl::CollisionChecker>;
 
     inline RobotState addRobotStates( RobotState& a_, RobotState& b_ ){
