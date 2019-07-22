@@ -12,7 +12,7 @@ namespace hsearch {
                 ActionSpacePtr,
                 RobotState start_,
                 const double res_ );
-        ~ConstrainedTwoDimGridSpace();
+        ~ConstrainedTwoDimGridSpace(){};
 
         bool addPathConstraint( const LineString& );
         bool setSimilarityThresh( const double );
