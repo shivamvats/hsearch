@@ -132,7 +132,7 @@ void testConstrainedTwoDimGrid( char* img_path_ ){
     cv::Point start( 50, 50 );
     double res = 0.01;
     int connectivity = 4;
-    double planning_res = res;
+    double planning_res = 4*res;
 
     auto grid_ptr = constructOccGrid( img, res );
     auto collision_checker_ptr = make_shared<TwoDimGridCollisionChecker>( grid_ptr.get() );
@@ -144,7 +144,7 @@ void testConstrainedTwoDimGrid( char* img_path_ ){
             action_space_ptr,
             s,
             res );
-    pspace_ptr->setSimilarityThresh( .5 );
+    pspace_ptr->setSimilarityThresh( 0.1 );
 
     RobotState rand_start, rand_goal;
     getRandStartGoal( collision_checker_ptr, img.cols*res, img.rows*res, 5*res, rand_start, rand_goal );
@@ -152,14 +152,12 @@ void testConstrainedTwoDimGrid( char* img_path_ ){
     pspace_ptr->setGoal( rand_goal );
     pspace_ptr->setGoalThresh( 0.1 );
 
-    //cout<<"Start:\n";
-    //printVector( start );
-    //cout<<"Goal:\n";
-    //printVector( goal );
     auto lattice_space = dynamic_pointer_cast<LatticePlanningSpace>(pspace_ptr);
-    //LatticePlanningSpacePtr lattice_space( pspace_ptr.get() );
     ConstrainedDijkstra planner( lattice_space );
 
+    //******************************
+    //Plan to generate a constraint
+    //******************************
     NodeIds soltn;
     auto start_time = std::chrono::high_resolution_clock::now();
     auto solved = planner.plan( 5, soltn ); auto finish_time = std::chrono::high_resolution_clock::now();
@@ -184,10 +182,18 @@ void testConstrainedTwoDimGrid( char* img_path_ ){
         visualizeSoltn( viz, path_points );
     }
 
+    //***********************
+    //Replan with Constraint
+    //***********************
+
     pspace_ptr->addPathConstraint( constraint_curve );
-    auto out = pspace_ptr->satisfiesConstraints( soltn );
     soltn.clear();
-    planner.clear();
+    pspace_ptr->clear();
+    pspace_ptr->setStart( rand_start );
+    pspace_ptr->setGoal( rand_goal );
+    pspace_ptr->setGoalThresh( 0.1 );
+
+    planner.reinit();
 
     // Constrained Planning
     start_time = std::chrono::high_resolution_clock::now();
@@ -195,6 +201,15 @@ void testConstrainedTwoDimGrid( char* img_path_ ){
     finish_time = std::chrono::high_resolution_clock::now();
     elapsed_time = finish_time - start_time;
     if( !solved ){
+        for( auto& it: planner.m_node_expansions ){
+            RobotCoord robot_coord = pspace_ptr->nodeIdToRobotCoord( it );
+            viz.markPoint( robot_coord[0], robot_coord[1], 1, std::array<int, 3>{ 100, 100, 100 } );
+            //viz.imshow(1);
+        }
+        viz.imshow(1);
+        cout<<"Planning Failed.\n";
+        cout<<"Time taken: "<<elapsed_time.count()<<"s\n";
+        cout<<"Expansions: "<<planner.m_closed.size()<<"\n";
         throw "Failed to plan.";
     }
     cout<<"Planning succeeded.\n";
