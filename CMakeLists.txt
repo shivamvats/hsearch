@@ -53,5 +53,8 @@ target_link_libraries( test_viz hsearch )
 add_executable( test_two_dim_grid test/two_dim_grid.cpp )
 target_link_libraries( test_two_dim_grid hsearch )
 
+add_executable( test_constrained_two_dim_grid test/constrained_two_dim_grid.cpp )
+target_link_libraries( test_constrained_two_dim_grid hsearch )
+
 add_executable( curve_similarity src/curve_similarity.cpp )
 target_link_libraries( curve_similarity hsearch )
