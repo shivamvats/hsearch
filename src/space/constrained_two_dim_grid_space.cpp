@@ -37,8 +37,8 @@ namespace hsearch {
         }
         double dist = boost::geometry::discrete_frechet_distance(
                 path, path_constraint );
-        std::cout<<dist<<"\n";
-        return dist > m_thresh;
+        //std::cout<<dist<<"\n";
+        return dist > (double(m_thresh*N))/path_constraint.size();
     }
 
 }
