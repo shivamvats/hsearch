@@ -1,7 +1,11 @@
 To Do
 =====
 
-[x] Add CollisionChecker
+* [ ] Visualization for Graph Search -
+        * Visualize nodes
+        * Visalize nodes
+        * Make it interactive with a hierarchial details
+* [x] Add CollisionChecker
 
 Coding Standards
 ================
