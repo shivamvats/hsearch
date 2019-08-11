@@ -3,9 +3,9 @@ To Do
 
 * [ ] Visualization for Graph Search:
 
-        * Visualize nodes
+        * Visualize actions
         * Visalize nodes
-        * Make it interactive with a hierarchial details
+        * Make it interactive with hierarchial details
 * [x] Add CollisionChecker
 
 Coding Standards
