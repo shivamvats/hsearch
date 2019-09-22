@@ -18,7 +18,7 @@ using namespace hsearch;
 void visualizeSoltn( Visualizer& viz, std::vector<RobotCoord> path_ ){
     for( auto& point: path_ ){
         viz.markPoint( point[0], point[1], 1, std::array<int, 3>{ 100, 100, 100 } );
-        viz.imshow(1);
+        //viz.imshow(1);
     }
     viz.imshow();
 }
@@ -144,7 +144,7 @@ void testConstrainedTwoDimGrid( char* img_path_ ){
             action_space_ptr,
             s,
             res );
-    pspace_ptr->setSimilarityThresh( 0.1 );
+    pspace_ptr->setSimilarityThresh( 1 );
 
     RobotState rand_start, rand_goal;
     getRandStartGoal( collision_checker_ptr, img.cols*res, img.rows*res, 5*res, rand_start, rand_goal );
@@ -182,6 +182,8 @@ void testConstrainedTwoDimGrid( char* img_path_ ){
         visualizeSoltn( viz, path_points );
     }
 
+    viz.imwrite( "constraint_path.jpg" );
+
     //***********************
     //Replan with Constraint
     //***********************
@@ -204,7 +206,7 @@ void testConstrainedTwoDimGrid( char* img_path_ ){
         for( auto& it: planner.m_node_expansions ){
             RobotCoord robot_coord = pspace_ptr->nodeIdToRobotCoord( it );
             viz.markPoint( robot_coord[0], robot_coord[1], 1, std::array<int, 3>{ 100, 100, 100 } );
-            //viz.imshow(1);
+            viz.imshow(1);
         }
         viz.imshow(1);
         cout<<"Planning Failed.\n";
@@ -212,9 +214,75 @@ void testConstrainedTwoDimGrid( char* img_path_ ){
         cout<<"Expansions: "<<planner.m_closed.size()<<"\n";
         throw "Failed to plan.";
     }
+    /*
+    for( auto& it: planner.m_node_expansions ){
+        RobotCoord robot_coord = pspace_ptr->nodeIdToRobotCoord( it );
+        viz.markPoint( robot_coord[0], robot_coord[1], 1, std::array<int, 3>{ 100, 100, 100 } );
+        viz.imshow(1);
+    }
+    */
     cout<<"Planning succeeded.\n";
     cout<<"Time taken: "<<elapsed_time.count()<<"s\n";
     cout<<"Expansions: "<<planner.m_closed.size()<<"\n";
+
+    constraint_curve.clear();
+    for( auto& id: soltn ){
+        state = pspace_ptr->nodeIdToRobotState( id );
+        constraint_curve.push_back( PointXY( state[0], state[1] ) );
+    }
+
+    if( solved ){
+        std::vector<RobotCoord> path_points;
+        for( auto id: soltn )
+            path_points.push_back( pspace_ptr->nodeIdToRobotCoord( id ) );
+        visualizeSoltn( viz, path_points );
+
+        //viz.imwrite( "constrained_path.jpg" );
+    }
+
+    pspace_ptr->addPathConstraint( constraint_curve );
+    soltn.clear();
+    pspace_ptr->clear();
+    pspace_ptr->setStart( rand_start );
+    pspace_ptr->setGoal( rand_goal );
+    pspace_ptr->setGoalThresh( 0.1 );
+
+    planner.reinit();
+
+    // Constrained Planning
+    start_time = std::chrono::high_resolution_clock::now();
+    solved = planner.plan( 5, soltn );
+    finish_time = std::chrono::high_resolution_clock::now();
+    elapsed_time = finish_time - start_time;
+    if( !solved ){
+        for( auto& it: planner.m_node_expansions ){
+            RobotCoord robot_coord = pspace_ptr->nodeIdToRobotCoord( it );
+            viz.markPoint( robot_coord[0], robot_coord[1], 1, std::array<int, 3>{ 100, 100, 100 } );
+            viz.imshow(1);
+        }
+        viz.imshow(1);
+        cout<<"Planning Failed.\n";
+        cout<<"Time taken: "<<elapsed_time.count()<<"s\n";
+        cout<<"Expansions: "<<planner.m_closed.size()<<"\n";
+        throw "Failed to plan.";
+    }
+    /*
+    for( auto& it: planner.m_node_expansions ){
+        RobotCoord robot_coord = pspace_ptr->nodeIdToRobotCoord( it );
+        viz.markPoint( robot_coord[0], robot_coord[1], 1, std::array<int, 3>{ 100, 100, 100 } );
+        viz.imshow(1);
+    }
+    */
+    cout<<"Planning succeeded.\n";
+    cout<<"Time taken: "<<elapsed_time.count()<<"s\n";
+    cout<<"Expansions: "<<planner.m_closed.size()<<"\n";
+
+    //LineString constraint_curve;
+    //RobotState state;
+    //for( auto& id: soltn ){
+    //    state = pspace_ptr->nodeIdToRobotState( id );
+    //    constraint_curve.push_back( PointXY( state[0], state[1] ) );
+    //}
 
     if( solved ){
         std::vector<RobotCoord> path_points;

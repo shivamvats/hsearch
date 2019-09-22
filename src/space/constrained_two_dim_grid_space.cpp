@@ -25,20 +25,25 @@ namespace hsearch {
             return true;
 
         int N = node_ids_.size();
-        if( N > m_path_constraints[0].size() )
-            return true;
-        auto path_constraint = LineString( m_path_constraints[0].begin(), m_path_constraints[0].begin() + N );
+        for( auto& constraint: m_path_constraints ){
+            if( N > constraint.size() )
+                continue;
+            auto path_constraint = LineString( constraint.begin(), constraint.begin() + N );
 
-        LineString path;
-        RobotState state;
-        for( auto& id: node_ids_ ){
-            state = nodeIdToRobotState( id );
-            path.push_back( PointXY( state[0], state[1] ) );
+            LineString path;
+            RobotState state;
+            for( auto& id: node_ids_ ){
+                state = nodeIdToRobotState( id );
+                path.push_back( PointXY( state[0], state[1] ) );
+            }
+            double dist = boost::geometry::discrete_frechet_distance(
+                    path, path_constraint );
+            //double dist = boost::geometry::discrete_hausdorff_distance(
+            //        path, path_constraint );
+            if( dist < (double(m_thresh*N))/path_constraint.size() )
+                return false;
         }
-        double dist = boost::geometry::discrete_frechet_distance(
-                path, path_constraint );
-        //std::cout<<dist<<"\n";
-        return dist > (double(m_thresh*N))/path_constraint.size();
+        return true;
     }
 
 }

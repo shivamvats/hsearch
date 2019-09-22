@@ -21,7 +21,7 @@ int main() {
     //boost::geometry::read_wkt("LINESTRING(0 0,1 1,2 4,3 9,4 16)", ls1);
     //boost::geometry::read_wkt("LINESTRING(0 1,1 2,2 5,3 10,4 17)", ls2);
     auto ls1 = getParabola( 1, 0, 100 );
-    auto ls2 = getParabola( 1, 2, 100 );
+    auto ls2 = getParabola( 1, 2, 10 );
 
     double res = boost::geometry::discrete_frechet_distance(ls1, ls2);
 
