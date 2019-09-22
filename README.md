@@ -15,13 +15,11 @@ Coding Standards
     - camelCase for all methods/functions.
     - exceptions:
         - virtual functions start with a capital letter.
-
-* Public/Private policy:
-    Nothing is private. Everything is public.
-
-* Getter and Setters
-    - set*() defines setters.
-    - there are no setter methods. Directly access the member variables.
+        
+* Private/Public Policy:
+    - Keep things public as much as possible.
+    - However, for inheritance to work correctly, some things might need to be kept private.
+    - Such member objects will require setters/getters.
     
 * Variable naming policy:
     - all variables are in lower case, words separated by underscore.
